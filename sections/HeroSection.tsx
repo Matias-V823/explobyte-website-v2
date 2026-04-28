@@ -50,21 +50,16 @@ export function HeroSection() {
           <div ref={badgeRef}>
             <Badge>
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-              Disponibles para nuevos proyectos
+              Explobyte · Explora nuevas fronteras digitales
             </Badge>
           </div>
 
           <h1 ref={headRef} className="text-5xl md:text-6xl xl:text-[68px] font-bold tracking-tight leading-[1.05] text-ink">
-            Software que{" "}
-            <span className="gradient-text">transforma</span>
-            <br />
-            tu negocio
+            Explora nuevas fronteras digitales con software a medida
           </h1>
 
           <p ref={subRef} className="text-lg md:text-xl text-ink-3 leading-relaxed max-w-xl">
-            Construimos productos digitales de alta calidad: aplicaciones web,
-            móviles, APIs e integraciones. Convertimos tu visión en software
-            que escala.
+            Impulsamos empresas y emprendimientos mediante desarrollo de software, innovación tecnológica, análisis de datos e integración con inteligencia artificial para acelerar su crecimiento digital.          
           </p>
 
           <div ref={ctaRef} className="flex flex-wrap gap-4 items-center">

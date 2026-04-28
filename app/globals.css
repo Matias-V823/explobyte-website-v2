@@ -1,9 +1,35 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "General";
+  src: url("/fonts/general.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Robert";
+  src: url("/fonts/robert-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Robert";
+  src: url("/fonts/robert-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme inline {
+  --font-general: "General", sans-serif;
+  --font-robert:  "Robert", sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: "General", sans-serif;
   --font-mono: var(--font-geist-mono);
 
   /* Blue palette from #4b8afe */
@@ -47,10 +73,29 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans, Arial, sans-serif);
+  font-family: var(--font-general);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+h2 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+}
+
+button, input, textarea, select, label {
+  font-family: var(--font-general);
 }
 
 /* Gradient utilities */
