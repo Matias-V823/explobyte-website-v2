@@ -1,87 +1,575 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
+/* ─── Data ─────────────────────────────────────────────────────── */
 const services = [
   {
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-      </svg>
-    ),
+    path: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
     title: "Desarrollo Web",
-    description: "Aplicaciones web modernas con React, Next.js y Node.js. Rendimiento óptimo, SEO avanzado y arquitecturas escalables.",
+    description:
+      "Aplicaciones web modernas con React, Next.js y Node.js. Rendimiento óptimo, SEO avanzado y arquitecturas escalables.",
     tags: ["React", "Next.js", "TypeScript"],
-    shade: "#4b8afe",
+    color: "#4b8afe",
+    terminal: [
+      "$ explobyte build --web",
+      "✓ Compilando TypeScript...",
+      "✓ Optimizando bundle (Next.js)",
+      "✓ Lighthouse score: 100/100",
+      "→ Deploy exitoso en Vercel",
+    ],
   },
   {
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-      </svg>
-    ),
+    path: "M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z",
     title: "Desarrollo Móvil",
-    description: "Apps nativas e híbridas para iOS y Android con React Native y Expo. Experiencias fluidas en todos los dispositivos.",
-    tags: ["React Native", "Expo", "iOS/Android"],
-    shade: "#3e71d0",
+    description:
+      "Apps nativas e híbridas para iOS y Android con React Native y Expo. Experiencias fluidas en todos los dispositivos.",
+    tags: ["React Native", "Expo", "iOS / Android"],
+    color: "#3e71d0",
+    terminal: [
+      "$ expo build --platform all",
+      "✓ Compilando para iOS 17...",
+      "✓ Compilando para Android 14...",
+      "✓ Tests: 48 / 48 passed",
+      "→ Enviando a App Store & Play",
+    ],
   },
   {
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-      </svg>
-    ),
+    path: "M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
     title: "APIs e Integraciones",
-    description: "APIs REST y GraphQL robustas, integraciones con servicios de terceros, sistemas de pago y plataformas externas.",
+    description:
+      "APIs REST y GraphQL robustas, integraciones con servicios de terceros, sistemas de pago y plataformas externas.",
     tags: ["REST", "GraphQL", "Webhooks"],
-    shade: "#315aa5",
+    color: "#315aa5",
+    terminal: [
+      "$ explobyte api --create",
+      "✓ Endpoints REST: 24 rutas",
+      "✓ Schema GraphQL validado",
+      "✓ Auth JWT + Rate limiting",
+      "→ API en producción: 99.9% uptime",
+    ],
   },
   {
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
+    path: "M13 10V3L4 14h7v7l9-11h-7z",
     title: "Automatización",
-    description: "Flujos de trabajo automatizados, bots y pipelines que eliminan tareas repetitivas y optimizan procesos internos.",
+    description:
+      "Flujos de trabajo automatizados, bots y pipelines que eliminan tareas repetitivas y optimizan procesos internos.",
     tags: ["n8n", "Python", "Bots"],
-    shade: "#4b8afe",
+    color: "#4b8afe",
+    terminal: [
+      "$ explobyte automate --run",
+      "✓ Pipeline configurado (n8n)",
+      "✓ Bot activo: 24 / 7",
+      "✓ Tareas eliminadas: 847 / mes",
+      "→ Ahorro estimado: 40 h/semana",
+    ],
   },
   {
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-      </svg>
-    ),
+    path: "M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01",
     title: "UX / UI Design",
-    description: "Interfaces modernas centradas en el usuario. Sistemas de diseño, prototipos interactivos y experiencias que convierten.",
+    description:
+      "Interfaces modernas centradas en el usuario. Sistemas de diseño, prototipos interactivos y experiencias que convierten.",
     tags: ["Figma", "Design Systems", "Prototipado"],
-    shade: "#3e71d0",
+    color: "#3e71d0",
+    terminal: [
+      "$ explobyte design --audit",
+      "✓ Componentes: 120+ tokens",
+      "✓ Accesibilidad: WCAG AA",
+      "✓ Tasa de conversión: +34%",
+      "→ Design System publicado",
+    ],
   },
   {
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-      </svg>
-    ),
+    path: "M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z",
     title: "Cloud & DevOps",
-    description: "Infraestructura en AWS, GCP y Vercel. CI/CD, Docker, Kubernetes y monitoreo para máxima disponibilidad y escalabilidad.",
-    tags: ["AWS", "Docker", "Vercel"],
-    shade: "#315aa5",
+    description:
+      "Infraestructura en AWS, GCP y Vercel. CI/CD, Docker, Kubernetes y monitoreo para máxima disponibilidad y escalabilidad.",
+    tags: ["AWS", "Docker", "Kubernetes"],
+    color: "#315aa5",
+    terminal: [
+      "$ kubectl apply -f deploy.yaml",
+      "✓ Docker: 3 containers up",
+      "✓ Kubernetes: autoscaling ON",
+      "✓ Uptime: 99.99% (30 días)",
+      "→ Infraestructura lista",
+    ],
+  },
+  {
+    path: "M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z",
+    title: "Reportabilidad",
+    description:
+      "Infraestructura en AWS, GCP y Vercel. CI/CD, Docker, Kubernetes y monitoreo para máxima disponibilidad y escalabilidad.",
+    tags: ["PowerBI", "Docker", "Kubernetes"],
+    color: "#315aa5",
+    terminal: [
+      "$ kubectl apply -f deploy.yaml",
+      "✓ Docker: 3 containers up",
+      "✓ Kubernetes: autoscaling ON",
+      "✓ Uptime: 99.99% (30 días)",
+      "→ Infraestructura lista",
+    ],
   },
 ];
 
+/* ─── Shared helpers ────────────────────────────────────────────── */
+function Icon({ path }: { path: string }) {
+  return (
+    <svg className="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={path} />
+    </svg>
+  );
+}
+
+function TerminalBlock({ lines }: { lines: string[] }) {
+  return (
+    <div className="bg-[#16181f] rounded-2xl overflow-hidden">
+      <div
+        className="flex items-center gap-1.5 px-3 py-2 border-b border-white/6"
+        style={{ background: "rgba(255,255,255,0.02)" }}
+      >
+        <div className="w-2 h-2 rounded-full bg-[#ff5f57]" />
+        <div className="w-2 h-2 rounded-full bg-[#febc2e]" />
+        <div className="w-2 h-2 rounded-full bg-[#28c840]" />
+        <span className="text-[9px] text-white/25 font-mono ml-1.5">bash — explobyte</span>
+      </div>
+      <div className="p-3 font-mono text-[10px] space-y-0.75">
+        {lines.map((line, i) => (
+          <div
+            key={i}
+            className={
+              line.startsWith("$")
+                ? "text-[#89b4fa]"
+                : line.startsWith("✓")
+                ? "text-[#a6e3a1]"
+                : "text-[#cba6f7]"
+            }
+          >
+            {line}
+          </div>
+        ))}
+        <div className="flex items-center gap-1 pt-0.5">
+          <span className="text-[#89b4fa]">$</span>
+          <span
+            className="inline-block w-1.25 h-2.5 bg-[#89b4fa]"
+            style={{ animation: "pulse 1.2s ease-in-out infinite" }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Desktop: MacBook ──────────────────────────────────────────── */
+function MacBookView() {
+  const [active, setActive] = useState(0);
+  const s = services[active];
+
+  return (
+    <div className="max-w-3xl mx-auto">
+      {/* Lid */}
+      <div
+        className="relative bg-[#1d1d1f] rounded-t-[20px] rounded-b-[3px] p-3.5 pb-2.5"
+        style={{
+          boxShadow:
+            "0 50px 100px -20px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06) inset",
+        }}
+      >
+        {/* Camera */}
+        <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-1.75 h-1.75 rounded-full bg-[#2c2c2e] border border-[#3a3a3c]" />
+
+        {/* Screen */}
+        <div className="rounded-lg overflow-hidden" style={{ aspectRatio: "16/10" }}>
+          <div
+            className="w-full h-full flex flex-col"
+            style={{ background: "linear-gradient(145deg, #0f1b35 0%, #162440 50%, #0d1929 100%)" }}
+          >
+            {/* macOS Menu bar */}
+            <div
+              className="h-6 flex items-center px-3 shrink-0 gap-4 border-b border-white/5"
+              style={{ background: "rgba(0,0,0,0.35)", backdropFilter: "blur(12px)" }}
+            >
+              <svg className="w-2.5 h-2.5 fill-white/75 shrink-0" viewBox="0 0 814 1000">
+                <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.3-155.8-109.4c-48.7-68.7-88.8-176.9-88.8-280.2 0-188.6 123.4-288.2 244.6-288.2 64.2 0 117.8 42.7 158.4 42.7 38.7 0 100-45 176.3-45 28.5 0 130.9 2.6 198.3 99.2zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z" />
+              </svg>
+              <div className="flex gap-3 text-[10px] text-white/80">
+                <span className="font-semibold">Explobyte</span>
+                <span className="text-white/40">Archivo</span>
+                <span className="text-white/40">Editar</span>
+                <span className="text-white/40">Vista</span>
+              </div>
+              <div className="ml-auto flex items-center gap-2 text-white/50 text-[10px]">
+                <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+                </svg>
+                <span>9:41</span>
+              </div>
+            </div>
+
+            {/* Desktop */}
+            <div className="flex-1 p-2.5 min-h-0">
+              {/* Window */}
+              <div
+                className="w-full h-full bg-white rounded-xl overflow-hidden flex flex-col"
+                style={{ boxShadow: "0 24px 64px rgba(0,0,0,0.55)" }}
+              >
+                {/* Title bar */}
+                <div className="h-9 bg-[#ebebeb] border-b border-gray-300/60 flex items-center px-3 shrink-0 relative">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-[#ff5f57] border border-[#e0443e]" />
+                    <div className="w-3 h-3 rounded-full bg-[#febc2e] border border-[#d6a01d]" />
+                    <div className="w-3 h-3 rounded-full bg-[#28c840] border border-[#1aab29]" />
+                  </div>
+                  <span className="absolute left-1/2 -translate-x-1/2 text-[11px] text-gray-400 font-medium tracking-tight">
+                    Servicios — Explobyte
+                  </span>
+                  <div className="ml-auto flex items-center gap-2 text-gray-400">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                  </div>
+                </div>
+
+                {/* Body */}
+                <div className="flex flex-1 min-h-0">
+                  {/* Sidebar */}
+                  <div className="w-44 bg-[#f2f2f2] border-r border-gray-200/80 flex flex-col shrink-0 overflow-y-auto">
+                    <div className="px-3 pt-3 pb-1 text-[9px] uppercase font-semibold text-gray-400 tracking-widest shrink-0">
+                      Servicios
+                    </div>
+                    <div className="flex flex-col gap-0.5 px-1.5 pb-2">
+                      {services.map((service, i) => (
+                        <button
+                          key={service.title}
+                          onClick={() => setActive(i)}
+                          className={`flex items-center gap-2 px-2 py-1.75 rounded-md text-left w-full transition-all duration-150 cursor-pointer ${
+                            active === i
+                              ? "bg-blue-500 text-white shadow-sm"
+                              : "text-gray-600 hover:bg-gray-300/50"
+                          }`}
+                        >
+                          <span
+                            className="w-3.5 h-3.5 shrink-0"
+                            style={{ color: active === i ? "white" : service.color }}
+                          >
+                            <Icon path={service.path} />
+                          </span>
+                          <span className="text-[11px] font-medium truncate leading-tight">
+                            {service.title}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Content pane */}
+                  <div className="flex-1 overflow-y-auto bg-white min-w-0">
+                    <div
+                      key={active}
+                      className="p-5 flex flex-col gap-3"
+                      style={{ animation: "macContentIn 0.3s ease forwards" }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-10 h-10 rounded-xl flex items-center justify-center p-2.5 shrink-0"
+                          style={{
+                            background: `${s.color}14`,
+                            border: `1px solid ${s.color}28`,
+                            color: s.color,
+                          }}
+                        >
+                          <Icon path={s.path} />
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-semibold text-gray-900 leading-tight">{s.title}</h3>
+                          <div className="flex flex-wrap gap-1 mt-1">
+                            {s.tags.map((t) => (
+                              <span
+                                key={t}
+                                className="text-[10px] px-1.5 py-px rounded-full font-medium"
+                                style={{
+                                  background: `${s.color}10`,
+                                  color: s.color,
+                                  border: `1px solid ${s.color}20`,
+                                }}
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <p
+                        className="text-[11px] text-gray-500 leading-relaxed border-l-2 pl-3"
+                        style={{ borderColor: `${s.color}50` }}
+                      >
+                        {s.description}
+                      </p>
+
+                      <TerminalBlock lines={s.terminal} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Hinge */}
+      <div
+        className="h-0.75 mx-px"
+        style={{ background: "linear-gradient(to bottom, #2a2a2a, #181818)" }}
+      />
+
+      {/* Base */}
+      <div
+        className="relative rounded-b-[10px] h-9 overflow-hidden"
+        style={{ background: "linear-gradient(to bottom, #cfcfd1, #b8b8ba)" }}
+      >
+        <div
+          className="absolute inset-x-8 top-1.5 bottom-2 rounded-sm opacity-20"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(90deg, rgba(0,0,0,0.25) 0px, rgba(0,0,0,0.25) 1px, transparent 1px, transparent 8px)",
+          }}
+        />
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-20 rounded-b"
+          style={{ background: "rgba(0,0,0,0.12)" }}
+        />
+        <div
+          className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-24 h-4.5 rounded"
+          style={{
+            background: "linear-gradient(to bottom, #c2c2c4, #adadaf)",
+            border: "1px solid rgba(0,0,0,0.18)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3)",
+          }}
+        />
+      </div>
+
+      {/* Bottom edge */}
+      <div
+        className="h-1.25 rounded-b-2xl mx-2"
+        style={{ background: "linear-gradient(to bottom, #9a9a9c, #8a8a8c)" }}
+      />
+    </div>
+  );
+}
+
+/* ─── Mobile: iPhone ────────────────────────────────────────────── */
+function IPhoneView() {
+  const [view, setView]   = useState<"list" | "detail">("list");
+  const [active, setActive] = useState(0);
+  const [dir, setDir]     = useState<"forward" | "back">("forward");
+  const s = services[active];
+
+  function openDetail(i: number) {
+    setDir("forward");
+    setActive(i);
+    setView("detail");
+  }
+
+  function goBack() {
+    setDir("back");
+    setView("list");
+  }
+
+  const animStyle = {
+    animation: `${dir === "forward" ? "slideFromRight" : "slideFromLeft"} 0.28s ease forwards`,
+  };
+
+  return (
+    <div className="max-w-70 w-full mx-auto">
+      {/* iPhone body */}
+      <div
+        className="relative bg-[#1d1d1f] rounded-[44px] p-3"
+        style={{
+          boxShadow:
+            "0 50px 100px -20px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.07) inset",
+        }}
+      >
+        {/* Volume buttons (left) */}
+        <div className="absolute -left-1 top-27 w-1 h-7 bg-[#2c2c2e] rounded-l-md" />
+        <div className="absolute -left-1 top-37 w-1 h-7 bg-[#2c2c2e] rounded-l-md" />
+        <div className="absolute -left-1 top-47 w-1 h-7 bg-[#2c2c2e] rounded-l-md" />
+        {/* Power button (right) */}
+        <div className="absolute right-1 top-35 w-1 h-14 bg-[#2c2c2e] rounded-r-md" />
+
+        {/* Screen */}
+        <div
+          className="bg-[#f2f2f7] rounded-[34px] overflow-hidden flex flex-col"
+          style={{ aspectRatio: "9/19" }}
+        >
+          {/* Dynamic Island + status bar */}
+          <div className="relative bg-[#f2f2f7] pt-3 pb-1 px-5 flex items-end shrink-0">
+            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-22.5 h-7 bg-black rounded-full" />
+            <span className="text-[12px] font-semibold text-black relative z-10">9:41</span>
+            <div className="ml-auto flex items-center gap-1 relative z-10">
+              {/* Signal */}
+              <svg className="w-3 h-3 fill-black" viewBox="0 0 17 12">
+                <rect x="0" y="8" width="3" height="4" rx="0.5" />
+                <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5" />
+                <rect x="9" y="3" width="3" height="9" rx="0.5" />
+                <rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity="0.3" />
+              </svg>
+              {/* Wifi */}
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="black" strokeWidth={2}>
+                <path strokeLinecap="round" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
+              </svg>
+              {/* Battery */}
+              <div className="flex items-center gap-0.5">
+                <div className="w-5 h-2.5 rounded-xs border border-black/60 relative flex items-center px-0.5">
+                  <div className="h-1.5 w-[70%] bg-black rounded-[1px]" />
+                </div>
+                <div className="w-0.5 h-1.5 bg-black/40 rounded-r-[1px]" />
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation bar */}
+          <div className="h-11 bg-white/90 border-b border-gray-200/70 flex items-center px-4 relative shrink-0"
+               style={{ backdropFilter: "blur(12px)" }}>
+            {view === "detail" && (
+              <button
+                onClick={goBack}
+                className="flex items-center gap-0.5 text-[#007aff] text-[10px] font-normal cursor-pointer"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
+                Volver
+              </button>
+            )}
+            <span className="absolute left-1/2 -translate-x-1/2 text-[10px] font-semibold pointer-events-none">
+              {view === "list" ? "Servicios" : s.title}
+            </span>
+          </div>
+
+          {/* Scrollable content */}
+          <div className="flex-1 overflow-y-auto overscroll-contain min-h-0">
+            {view === "list" ? (
+              <div key="list" className="p-3" style={animStyle}>
+                {/* Section label */}
+                <p className="text-[10px] uppercase text-gray-400 font-semibold px-2 mb-1.5 tracking-wider">
+                  Nuestros servicios
+                </p>
+                {/* Grouped card */}
+                <div className="bg-white rounded-2xl overflow-hidden shadow-sm divide-y divide-gray-100">
+                  {services.map((service, i) => (
+                    <button
+                      key={service.title}
+                      onClick={() => openDetail(i)}
+                      className="w-full flex items-center gap-3 px-4 py-3.5 text-left active:bg-gray-50 cursor-pointer transition-colors"
+                    >
+                      <div
+                        className="w-9 h-9 rounded-xl flex items-center justify-center p-2 shrink-0"
+                        style={{ background: `${service.color}14`, color: service.color }}
+                      >
+                        <Icon path={service.path} />
+                      </div>
+                      <span className="flex-1 text-[10px]">
+                        {service.title}
+                      </span>
+                      <svg className="w-3.5 h-3.5 text-gray-300 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div key={`detail-${active}`} className="p-3 space-y-2.5" style={animStyle}>
+                {/* Hero card */}
+                <div className="bg-white rounded-2xl p-5 text-center shadow-sm">
+                  <div
+                    className="w-16 h-16 rounded-2xl mx-auto mb-3 flex items-center justify-center p-3.5"
+                    style={{ background: `${s.color}12`, color: s.color }}
+                  >
+                    <Icon path={s.path} />
+                  </div>
+                  <h3 className="text-[17px] font-semibold text-black mb-2 leading-snug">
+                    {s.title}
+                  </h3>
+                  <p className="text-[13px] text-gray-500 leading-relaxed">{s.description}</p>
+                </div>
+
+                {/* Tags */}
+                <div className="bg-white rounded-2xl p-4 shadow-sm">
+                  <p className="text-[11px] uppercase text-gray-400 font-semibold mb-2.5 tracking-wider">
+                    Tecnologías
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {s.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="text-[12px] px-3 py-1 rounded-full font-medium"
+                        style={{
+                          background: `${s.color}10`,
+                          color: s.color,
+                          border: `1px solid ${s.color}22`,
+                        }}
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Terminal */}
+                <TerminalBlock lines={s.terminal} />
+
+                {/* Pagination dots */}
+                <div className="flex justify-center gap-1.5 pt-1 pb-2">
+                  {services.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => openDetail(i)}
+                      className="rounded-full transition-all duration-200 cursor-pointer"
+                      style={{
+                        width: i === active ? 16 : 6,
+                        height: 6,
+                        background: i === active ? s.color : "#d1d5db",
+                      }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Home indicator */}
+          <div className="flex justify-center py-2 bg-[#f2f2f7] shrink-0">
+            <div className="w-25 h-1 bg-black/20 rounded-full" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Section ───────────────────────────────────────────────────── */
 export function ServicesSection() {
-  const headRef = useScrollReveal<HTMLDivElement>({ y: 30 });
-  const gridRef = useScrollReveal<HTMLDivElement>({ y: 40, stagger: 0.08, selector: ".service-card", start: "top 82%" });
+  const headRef   = useScrollReveal<HTMLDivElement>({ y: 30 });
+  const deviceRef = useScrollReveal<HTMLDivElement>({ y: 60 });
 
   return (
     <section id="servicios" className="py-32 bg-[#f6f9ff] relative overflow-hidden">
-      {/* Subtle bg orb */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-100 rounded-full pointer-events-none"
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-100 rounded-full pointer-events-none"
         aria-hidden="true"
-        style={{ background: "radial-gradient(ellipse, rgba(75,138,254,0.06) 0%, transparent 70%)", filter: "blur(60px)" }} />
+        style={{
+          background: "radial-gradient(ellipse, rgba(75,138,254,0.06) 0%, transparent 70%)",
+          filter: "blur(60px)",
+        }}
+      />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Heading */}
@@ -95,60 +583,21 @@ export function ServicesSection() {
             <span className="gradient-text">en un solo equipo</span>
           </h2>
           <p className="text-ink-3 text-lg max-w-2xl mx-auto leading-relaxed">
-            Desde la idea hasta el lanzamiento. Cubrimos todo el ciclo de
-            desarrollo con tecnologías de vanguardia y metodologías ágiles.
+            Desde la idea hasta el lanzamiento. Cubrimos todo el ciclo de desarrollo
+            con tecnologías de vanguardia y metodologías ágiles.
           </p>
         </div>
 
-        {/* Grid */}
-        <div ref={gridRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {services.map((s) => <ServiceCard key={s.title} {...s} />)}
+        {/* Device — MacBook on ≥md, iPhone on <md */}
+        <div ref={deviceRef}>
+          <div className="hidden md:block">
+            <MacBookView />
+          </div>
+          <div className="md:hidden flex justify-center">
+            <IPhoneView />
+          </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function ServiceCard({ icon, title, description, tags, shade }: (typeof services)[0]) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const r = cardRef.current;
-    if (!r) return;
-    const rect = r.getBoundingClientRect();
-    r.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-    r.style.setProperty("--my", `${e.clientY - rect.top}px`);
-  }
-
-  return (
-    <div
-      ref={cardRef}
-      onMouseMove={onMouseMove}
-      className="service-card group relative bg-white border border-border rounded-2xl p-6 overflow-hidden
-                 transition-all duration-300 hover:border-[#d2e2ff] hover:shadow-xl"
-      style={{ "--shadow-color": `${shade}18` } as React.CSSProperties}
-    >
-      {/* Mouse-tracked glow */}
-      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl pointer-events-none"
-        style={{ background: `radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(75,138,254,0.07), transparent 60%)` }} />
-
-      {/* Icon */}
-      <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110"
-        style={{ background: `${shade}12`, border: `1px solid ${shade}22`, color: shade }}>
-        {icon}
-      </div>
-
-      <h3 className="text-base font-semibold text-ink mb-2.5">{title}</h3>
-      <p className="text-ink-3 text-sm leading-relaxed mb-5">{description}</p>
-
-      <div className="flex flex-wrap gap-1.5">
-        {tags.map((t) => (
-          <span key={t} className="text-[11px] px-2.5 py-1 rounded-full font-medium"
-            style={{ background: `${shade}0e`, color: shade, border: `1px solid ${shade}20` }}>
-            {t}
-          </span>
-        ))}
-      </div>
-    </div>
   );
 }
