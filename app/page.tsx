@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/sections/HeroSection";
 import { ServicesSection } from "@/sections/ServicesSection";
 import { ShowcaseSection } from "@/sections/ShowcaseSection";
+import { TechStackSection } from "@/sections/TechStackSection";
 import { CTASection } from "@/sections/CTASection";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
         <HeroSection />
         <ServicesSection />
         <ShowcaseSection />
+        <TechStackSection />
         <CTASection />
       </main>
       <Footer />
