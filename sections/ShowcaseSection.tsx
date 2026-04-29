@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useState } from "react";
+import Image from "next/image";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { registerGSAP, gsap, ScrollTrigger } from "@/lib/gsap";
 
 const features = [
   {
@@ -48,30 +48,12 @@ const features = [
 ];
 
 export function ShowcaseSection() {
-  const headRef   = useScrollReveal<HTMLDivElement>({ y: 30 });
-  const infoRef   = useScrollReveal<HTMLDivElement>({ y: 40, delay: 0.15 });
-  const sectionRef = useRef<HTMLElement>(null);
-  const mockupRef  = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    registerGSAP();
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (!mockupRef.current || !sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(mockupRef.current,
-        { y: 60, opacity: 0, scale: 0.97 },
-        { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power3.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 75%", once: true } }
-      );
-      gsap.to(mockupRef.current, { y: -8, duration: 4.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
-    });
-
-    return () => ctx.revert();
-  }, []);
+  const headRef = useScrollReveal<HTMLDivElement>({ y: 30 });
+  const infoRef = useScrollReveal<HTMLDivElement>({ y: 40, delay: 0.15 });
+  const mockupRef = useScrollReveal<HTMLDivElement>({ y: 50, delay: 0.05 });
 
   return (
-    <section id="proyectos" ref={sectionRef} className="py-32 bg-white relative overflow-hidden">
+    <section id="proyectos" className="py-32 bg-white relative overflow-hidden">
       {/* Top divider */}
       <div className="absolute top-0 inset-x-0 h-px bg-linear-to-r from-transparent via-[#d2e2ff] to-transparent" aria-hidden="true" />
 
@@ -95,7 +77,7 @@ export function ShowcaseSection() {
         {/* Two-col */}
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Mockup */}
-          <div ref={mockupRef} aria-label="Vista previa del sistema Explo">
+          <div ref={mockupRef}>
             <ExploBrowserMockup />
           </div>
 
@@ -164,159 +146,139 @@ export function ShowcaseSection() {
   );
 }
 
-function ExploBrowserMockup() {
-  return (
-    <div className="relative rounded-2xl overflow-hidden border border-[#d2e2ff] shadow-2xl"
-      style={{ background: "linear-gradient(145deg, #152747 0%, #0f172a 100%)",
-               boxShadow: "0 32px 64px -12px rgba(75,138,254,0.18), 0 0 0 1px rgba(75,138,254,0.12)" }}>
+const views = [
+  {
+    src: "/home-explo.png",
+    alt: "Dashboard principal de Explo",
+    label: "Dashboard",
+    width: 1400,
+    height: 875,
+  },
+  {
+    src: "/map-explo.png",
+    alt: "Mapa de propiedades de Explo",
+    label: "Mapa",
+    width: 900,
+    height: 540,
+  },
+  {
+    src: "/property-explo.png",
+    alt: "Ficha de propiedad en Explo",
+    label: "Propiedades",
+    width: 700,
+    height: 520,
+  },
+];
 
-      {/* Chrome */}
-      <div className="h-10 border-b border-white/10 flex items-center px-4 gap-3">
-        <div className="flex gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-rose-400/80" />
-          <div className="w-3 h-3 rounded-full bg-amber-400/80" />
-          <div className="w-3 h-3 rounded-full bg-emerald-400/80" />
-        </div>
-        <div className="flex-1 flex justify-center">
-          <div className="flex items-center gap-2 bg-white/10 rounded-lg px-4 py-1 w-56">
-            <svg className="w-3 h-3 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
-            </svg>
-            <span className="text-[11px] text-white/30">app.explo.cl</span>
+function ExploBrowserMockup() {
+  const [active, setActive] = useState(0);
+
+  return (
+    <div className="select-none space-y-3" aria-label="Vista previa del sistema Explo">
+      {/* Main frame */}
+      <div
+        className="rounded-2xl overflow-hidden"
+        style={{
+          background: "#080d18",
+          boxShadow: "0 28px 72px -12px rgba(4,8,20,0.65), 0 0 0 1px #141c2e",
+        }}
+      >
+        {/* Titlebar */}
+        <div
+          className="flex items-center px-4 gap-3"
+          style={{ height: 34, borderBottom: "1px solid #101827" }}
+        >
+          <div className="flex gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#1e2740" }} />
+            <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#1e2740" }} />
+            <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#1e2740" }} />
           </div>
+          <div className="flex-1 flex justify-center">
+            <span
+              className="text-[11px] uppercase tracking-widest"
+              style={{ color: "#2d3d5c", letterSpacing: "0.15em" }}
+            >
+              {views[active].label}
+            </span>
+          </div>
+          <div className="w-14" />
         </div>
-        <div className="w-16" />
+
+        {/* Main image — cross-fade between views */}
+        <div className="relative" style={{ height: 360 }}>
+          {views.map((view, i) => (
+            <div
+              key={view.src}
+              className="absolute inset-0 overflow-hidden"
+              style={{
+                opacity: i === active ? 1 : 0,
+                transition: "opacity 0.35s ease",
+                pointerEvents: i === active ? "auto" : "none",
+              }}
+            >
+              <Image
+                src={view.src}
+                alt={view.alt}
+                width={view.width}
+                height={view.height}
+                className="w-full h-full object-cover object-top"
+                priority={i === 0}
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Layout */}
-      <div className="flex" style={{ height: 420 }}>
-        {/* Sidebar */}
-        <div className="w-48 border-r border-white/10 flex flex-col">
-          <div className="p-4 border-b border-white/10">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-lg gradient-bg flex items-center justify-center">
-                <span className="text-white font-bold text-xs">E</span>
-              </div>
-              <div>
-                <div className="text-white text-xs font-semibold">Explo</div>
-                <div className="text-white/30 text-[10px]">Admin</div>
-              </div>
+      {/* Thumbnails */}
+      <div className="grid grid-cols-3 gap-2.5">
+        {views.map((view, i) => (
+          <button
+            key={view.src}
+            onClick={() => setActive(i)}
+            aria-pressed={i === active}
+            aria-label={`Mostrar ${view.label}`}
+            className="relative overflow-hidden rounded-xl focus:outline-none"
+            style={{
+              height: 80,
+              border: `2px solid ${i === active ? "#4b8afe" : "transparent"}`,
+              boxShadow: i === active
+                ? "0 0 0 1px rgba(75,138,254,0.2), 0 8px 20px -6px rgba(0,0,0,0.18)"
+                : "0 0 0 1px #e2e8f0, 0 2px 8px -2px rgba(0,0,0,0.06)",
+              transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+              cursor: i === active ? "default" : "pointer",
+            }}
+          >
+            <Image
+              src={view.src}
+              alt={view.alt}
+              width={view.width}
+              height={view.height}
+              className="w-full h-full object-cover object-top"
+              style={{
+                opacity: i === active ? 1 : 0.72,
+                transition: "opacity 0.2s ease",
+              }}
+            />
+            {/* Label */}
+            <div
+              className="absolute bottom-0 inset-x-0 px-2 pb-1.5 pt-4"
+              style={{
+                background: "linear-gradient(to top, rgba(8,13,24,0.72) 0%, transparent 100%)",
+              }}
+            >
+              <span className="text-[10px] font-semibold text-white/90 tracking-wide">
+                {view.label}
+              </span>
             </div>
-          </div>
-          <nav className="flex-1 p-3 space-y-0.5">
-            {[
-              { label: "Dashboard",    active: true,  d: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2" },
-              { label: "Propiedades",  active: false, d: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
-              { label: "Contactos",    active: false, d: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0" },
-              { label: "Calendario",   active: false, d: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" },
-              { label: "Tareas",       active: false, d: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" },
-            ].map((item) => (
-              <div key={item.label} className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-[11px] font-medium ${
-                item.active ? "bg-blue-500/20 text-blue-400 border border-blue-500/25" : "text-white/35 hover:text-white/60"
-              }`}>
-                <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={item.d} />
-                </svg>
-                {item.label}
-              </div>
-            ))}
-          </nav>
-        </div>
-
-        {/* Main content */}
-        <div className="flex-1 p-4 overflow-hidden space-y-3">
-          <div className="flex items-end justify-between mb-4">
-            <div>
-              <div className="text-white font-bold text-base">Buenos días, Carlos</div>
-              <div className="text-white/30 text-[11px]">Lunes, 28 de Abril 2026</div>
-            </div>
-            <div className="flex items-center gap-2 text-[11px] px-3 py-1.5 rounded-lg font-medium"
-              style={{ background: "rgba(75,138,254,0.15)", border: "1px solid rgba(75,138,254,0.25)", color: "#78a7fe" }}>
-              <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
-              Sistema activo
-            </div>
-          </div>
-
-          {/* KPIs */}
-          <div className="grid grid-cols-3 gap-2">
-            {[
-              { label: "Ingresos",    val: "$84,200", sub: "+12.4%", color: "#4b8afe" },
-              { label: "Propiedades", val: "142",     sub: "38 en arriendo", color: "#78a7fe" },
-              { label: "Ocupación",   val: "94.2%",   sub: "↑ 3.1%",  color: "#aecaff" },
-            ].map((k) => (
-              <div key={k.label} className="rounded-xl p-3" style={{ background: `${k.color}0c`, border: `1px solid ${k.color}20` }}>
-                <div className="text-[9px] text-white/30 mb-1">{k.label}</div>
-                <div className="text-sm font-bold mb-0.5" style={{ color: k.color }}>{k.val}</div>
-                <div className="text-[9px] text-white/25">{k.sub}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Charts row */}
-          <div className="grid grid-cols-2 gap-2">
-            <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <div className="text-[9px] text-white/30 mb-2">Ingresos — 12 meses</div>
-              <div className="flex items-end gap-0.5 h-14">
-                {[42,58,51,74,68,82,90,71,83,88,79,100].map((h, i) => (
-                  <div key={i} className="flex-1 rounded-sm" style={{
-                    height: `${h}%`,
-                    background: i === 11 ? "linear-gradient(to top, #4b8afe, #aecaff)"
-                               : i >= 9   ? "rgba(75,138,254,0.3)"
-                                           : "rgba(255,255,255,0.07)",
-                  }} />
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-xl p-3" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <div className="text-[9px] text-white/30 mb-2">Estado propiedades</div>
-              <div className="space-y-2 mt-2">
-                {[
-                  { label: "Arrendadas",  pct: 75, color: "#4b8afe" },
-                  { label: "Disponibles", pct: 15, color: "#78a7fe" },
-                  { label: "Mantención", pct: 10, color: "#aecaff" },
-                ].map((s) => (
-                  <div key={s.label}>
-                    <div className="flex justify-between text-[9px] text-white/25 mb-1">
-                      <span>{s.label}</span><span>{s.pct}%</span>
-                    </div>
-                    <div className="h-1 rounded-full bg-white/10">
-                      <div className="h-full rounded-full" style={{ width: `${s.pct}%`, background: s.color }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Table */}
-          <div className="rounded-xl overflow-hidden" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
-            <div className="px-3 py-2 border-b border-white/10 text-[10px] text-white/40 font-medium">Propiedades recientes</div>
-            <div className="divide-y divide-white/5">
-              {[
-                { name: "Apto. Las Condes 203", type: "Depto",    status: "Arrendado",  income: "$850k"  },
-                { name: "Casa Ñuñoa Norte",      type: "Casa",     status: "Disponible", income: "$1.2M"  },
-                { name: "Local Providencia",     type: "Comercial",status: "Arrendado",  income: "$980k"  },
-              ].map((p) => (
-                <div key={p.name} className="px-3 py-2 flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-md shrink-0" style={{ background: "rgba(75,138,254,0.15)" }} />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-[10px] text-white/70 truncate">{p.name}</div>
-                    <div className="text-[9px] text-white/25">{p.type}</div>
-                  </div>
-                  <div className="text-[9px] px-2 py-0.5 rounded-full" style={{
-                    background: p.status === "Arrendado" ? "rgba(75,138,254,0.15)" : "rgba(120,167,254,0.15)",
-                    color: p.status === "Arrendado" ? "#78a7fe" : "#aecaff",
-                    border: `1px solid ${p.status === "Arrendado" ? "rgba(75,138,254,0.25)" : "rgba(120,167,254,0.25)"}`,
-                  }}>
-                    {p.status}
-                  </div>
-                  <div className="text-[10px] text-white/50 font-medium ml-1">{p.income}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+            {/* Active dot */}
+            {i === active && (
+              <div
+                className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full"
+                style={{ background: "#4b8afe" }}
+              />
+            )}
+          </button>
+        ))}
       </div>
     </div>
   );
