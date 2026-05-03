@@ -44,9 +44,9 @@ export function HeroSection() {
       <div ref={orbRef2} className="absolute bottom-[-20%] right-[-10%] w-140 h-140 rounded-full pointer-events-none" aria-hidden="true"
         style={{ background: "radial-gradient(circle, rgba(49,90,165,0.08) 0%, transparent 70%)", filter: "blur(48px)" }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 py-10 grid lg:grid-cols-2 gap-16 items-center">
         {/* Left column */}
-        <div className="space-y-8">
+        <div className="space-y-6">
           <div ref={badgeRef}>
             <Badge>
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
@@ -54,27 +54,27 @@ export function HeroSection() {
             </Badge>
           </div>
 
-          <h1 ref={headRef} className="text-5xl md:text-6xl xl:text-[68px] font-bold tracking-tight leading-[1.05] text-ink">
+          <h1 ref={headRef} className="text-3xl md:text-5xl xl:text-[68px] font-bold tracking-tight leading-[1.05] text-ink">
             Explora nuevas fronteras digitales con software a medida
           </h1>
 
-          <p ref={subRef} className="text-lg md:text-xl text-ink-3 leading-relaxed max-w-xl">
+          <p ref={subRef} className="text-lg md:text-xl text-ink-3 max-w-xl">
             Impulsamos empresas y emprendimientos mediante desarrollo de software, innovación tecnológica, análisis de datos e integración con inteligencia artificial para acelerar su crecimiento digital.          
           </p>
 
           <div ref={ctaRef} className="flex flex-wrap gap-4 items-center">
-            <ButtonLink variant="primary" size="lg" href="#cta">
+            <ButtonLink variant="primary" size="md" href="#cta">
               Empezar proyecto
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </ButtonLink>
-            <ButtonLink variant="secondary" size="lg" href="#proyectos">
+            <ButtonLink variant="secondary" size="md" href="#proyectos">
               Ver proyectos
             </ButtonLink>
           </div>
 
-          <div ref={statsRef} className="flex items-center gap-8 pt-2 border-t border-border">
+          {/* <div ref={statsRef} className="flex items-center gap-8 pt-2 border-t border-border">
             {[
               { label: "Proyectos entregados", value: "20+" },
               { label: "Clientes activos",      value: "12"  },
@@ -85,7 +85,7 @@ export function HeroSection() {
                 <div className="text-xs text-ink-4 mt-0.5">{stat.label}</div>
               </div>
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* Right column — mockup */}
@@ -260,6 +260,9 @@ function CPUServicesMockup() {
       </div>
       <div className="absolute" style={{ bottom: "8%", left: "12%" }}>
         <ServiceLabel label="Cloud & DevOps" />
+      </div>
+      <div className="absolute" style={{ bottom: "15%", left: "65%" }}>
+        <ServiceLabel label="Reportabilidad" />
       </div>
     </div>
   );
