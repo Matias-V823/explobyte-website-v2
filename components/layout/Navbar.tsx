@@ -58,9 +58,6 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          <ButtonLink variant="ghost" size="sm" href="#contacto">
-            Contacto
-          </ButtonLink>
           <ButtonLink variant="primary" size="sm" href="#cta">
             Empezar proyecto
           </ButtonLink>
