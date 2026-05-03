@@ -9,14 +9,7 @@ export function CTASection() {
   return (
     <section id="cta" className="py-32 relative overflow-hidden">
       {/* Blue gradient background */}
-      <div className="absolute inset-0 gradient-bg" aria-hidden="true" />
-
-      {/* Dot grid overlay */}
-      <div className="absolute inset-0 dot-grid opacity-[0.08]" aria-hidden="true" />
-
-      {/* Top/bottom soft vignette */}
-      <div className="absolute inset-x-0 top-0 h-24 bg-linear-to-b from-white to-transparent" aria-hidden="true" />
-      <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-white to-transparent" aria-hidden="true" />
+      <div className="absolute inset-0 bg-blue-500" aria-hidden="true" />
 
       {/* Orbs */}
       <div className="absolute top-[-20%] left-[-10%] w-125 h-125 rounded-full opacity-20 pointer-events-none"
