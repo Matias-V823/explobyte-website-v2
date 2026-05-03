@@ -9,106 +9,85 @@ const services = [
     path: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
     title: "Desarrollo Web",
     description:
-      "Aplicaciones web modernas con React, Next.js y Node.js. Rendimiento óptimo, SEO avanzado y arquitecturas escalables.",
-    tags: ["React", "Next.js", "TypeScript"],
-    color: "#4b8afe",
-    terminal: [
-      "$ explobyte build --web",
-      "✓ Compilando TypeScript...",
-      "✓ Optimizando bundle (Next.js)",
-      "✓ Lighthouse score: 100/100",
-      "→ Deploy exitoso en Vercel",
+      "Creamos plataformas web de alto rendimiento diseñadas para escalar con tu negocio. Nuestro equipo de expertos garantiza soluciones robustas, seguras y optimizadas que generan resultados tangibles desde el primer día.",
+    benefits: [
+      "Arquitecturas escalables que crecen con tu empresa",
+      "Rendimiento optimizado y posicionamiento SEO avanzado",
+      "Equipo certificado con amplia experiencia en proyectos web",
     ],
+    color: "#4b8afe",
   },
   {
     path: "M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z",
     title: "Desarrollo Móvil",
     description:
-      "Apps nativas e híbridas para iOS y Android con React Native y Expo. Experiencias fluidas en todos los dispositivos.",
-    tags: ["React Native", "Expo", "iOS / Android"],
-    color: "#3e71d0",
-    terminal: [
-      "$ expo build --platform all",
-      "✓ Compilando para iOS 17...",
-      "✓ Compilando para Android 14...",
-      "✓ Tests: 48 / 48 passed",
-      "→ Enviando a App Store & Play",
+      "Llevamos tu negocio al dispositivo de tus clientes con aplicaciones que destacan por su fluidez y usabilidad. Contamos con especialistas en desarrollo móvil que transforman ideas en productos de alto impacto.",
+    benefits: [
+      "Apps nativas e híbridas para iOS y Android",
+      "Experiencias de usuario intuitivas que fidelizan clientes",
+      "Soporte y mantenimiento continuo post-lanzamiento",
     ],
+    color: "#3e71d0",
   },
   {
     path: "M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
     title: "APIs e Integraciones",
     description:
-      "APIs REST y GraphQL robustas, integraciones con servicios de terceros, sistemas de pago y plataformas externas.",
-    tags: ["REST", "GraphQL", "Webhooks"],
-    color: "#315aa5",
-    terminal: [
-      "$ explobyte api --create",
-      "✓ Endpoints REST: 24 rutas",
-      "✓ Schema GraphQL validado",
-      "✓ Auth JWT + Rate limiting",
-      "→ API en producción: 99.9% uptime",
+      "Conectamos tus sistemas y plataformas para que tu negocio opere de manera unificada y eficiente. Nuestros expertos en backend diseñan integraciones confiables que eliminan silos de información y aceleran la operación.",
+    benefits: [
+      "Integración con cualquier sistema o plataforma existente",
+      "Alta disponibilidad con SLAs garantizados",
+      "Seguridad robusta en cada punto de conexión",
     ],
+    color: "#315aa5",
   },
   {
     path: "M13 10V3L4 14h7v7l9-11h-7z",
     title: "Automatización",
     description:
-      "Flujos de trabajo automatizados, bots y pipelines que eliminan tareas repetitivas y optimizan procesos internos.",
-    tags: ["n8n", "Python", "Bots"],
-    color: "#4b8afe",
-    terminal: [
-      "$ explobyte automate --run",
-      "✓ Pipeline configurado (n8n)",
-      "✓ Bot activo: 24 / 7",
-      "✓ Tareas eliminadas: 847 / mes",
-      "→ Ahorro estimado: 40 h/semana",
+      "Liberamos el potencial de tu equipo eliminando tareas repetitivas con flujos de trabajo inteligentes. Nuestros especialistas identifican oportunidades de mejora y diseñan soluciones que reducen costos operacionales de forma medible.",
+    benefits: [
+      "Reducción significativa de errores y tiempos de proceso",
+      "Flujos personalizados adaptados a tu operación",
+      "ROI medible desde el primer mes de implementación",
     ],
+    color: "#4b8afe",
   },
   {
     path: "M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01",
     title: "UX / UI Design",
     description:
-      "Interfaces modernas centradas en el usuario. Sistemas de diseño, prototipos interactivos y experiencias que convierten.",
-    tags: ["Figma", "Design Systems", "Prototipado"],
-    color: "#3e71d0",
-    terminal: [
-      "$ explobyte design --audit",
-      "✓ Componentes: 120+ tokens",
-      "✓ Accesibilidad: WCAG AA",
-      "✓ Tasa de conversión: +34%",
-      "→ Design System publicado",
+      "Diseñamos experiencias digitales que conectan con tus usuarios y fortalecen la identidad de tu marca. Nuestro equipo de diseñadores especializados crea interfaces que no solo se ven bien, sino que convierten y retienen.",
+    benefits: [
+      "Diseño centrado en el usuario respaldado por investigación",
+      "Sistemas de diseño escalables y consistentes",
+      "Prototipado y validación antes del desarrollo",
     ],
+    color: "#3e71d0",
   },
   {
     path: "M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z",
     title: "Cloud & DevOps",
     description:
-      "Infraestructura en AWS, GCP y Vercel. CI/CD, Docker, Kubernetes y monitoreo para máxima disponibilidad y escalabilidad.",
-    tags: ["AWS", "Docker", "Kubernetes"],
-    color: "#315aa5",
-    terminal: [
-      "$ kubectl apply -f deploy.yaml",
-      "✓ Docker: 3 containers up",
-      "✓ Kubernetes: autoscaling ON",
-      "✓ Uptime: 99.99% (30 días)",
-      "→ Infraestructura lista",
+      "Gestionamos tu infraestructura en la nube con los más altos estándares de disponibilidad y seguridad. Nuestros ingenieros certificados aseguran que tu aplicación esté siempre operativa y lista para escalar cuando lo necesites.",
+    benefits: [
+      "Infraestructura resiliente con alta disponibilidad garantizada",
+      "Despliegues continuos sin interrupciones del servicio",
+      "Monitoreo 24/7 y respuesta proactiva ante incidentes",
     ],
+    color: "#315aa5",
   },
   {
-    path: "M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z",
+    path: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
     title: "Reportabilidad",
     description:
-      "Infraestructura en AWS, GCP y Vercel. CI/CD, Docker, Kubernetes y monitoreo para máxima disponibilidad y escalabilidad.",
-    tags: ["PowerBI", "Docker", "Kubernetes"],
-    color: "#315aa5",
-    terminal: [
-      "$ kubectl apply -f deploy.yaml",
-      "✓ Docker: 3 containers up",
-      "✓ Kubernetes: autoscaling ON",
-      "✓ Uptime: 99.99% (30 días)",
-      "→ Infraestructura lista",
+      "Transformamos tus datos en información estratégica para que tomes decisiones basadas en evidencia. Nuestro equipo de analistas diseña dashboards y reportes que revelan el verdadero potencial de tu negocio.",
+    benefits: [
+      "Dashboards ejecutivos con métricas clave en tiempo real",
+      "Integración con múltiples fuentes de datos",
+      "Capacitación y soporte continuo para tu equipo analítico",
     ],
+    color: "#315aa5",
   },
 ];
 
@@ -121,41 +100,28 @@ function Icon({ path }: { path: string }) {
   );
 }
 
-function TerminalBlock({ lines }: { lines: string[] }) {
+function BenefitsList({ benefits, color }: { benefits: string[]; color: string }) {
   return (
-    <div className="bg-[#16181f] rounded-2xl overflow-hidden">
-      <div
-        className="flex items-center gap-1.5 px-3 py-2 border-b border-white/6"
-        style={{ background: "rgba(255,255,255,0.02)" }}
-      >
-        <div className="w-2 h-2 rounded-full bg-[#ff5f57]" />
-        <div className="w-2 h-2 rounded-full bg-[#febc2e]" />
-        <div className="w-2 h-2 rounded-full bg-[#28c840]" />
-        <span className="text-[9px] text-white/25 font-mono ml-1.5">bash — explobyte</span>
-      </div>
-      <div className="p-3 font-mono text-[10px] space-y-0.75">
-        {lines.map((line, i) => (
+    <div className="space-y-2">
+      {benefits.map((benefit, i) => (
+        <div key={i} className="flex items-start gap-2.5">
           <div
-            key={i}
-            className={
-              line.startsWith("$")
-                ? "text-[#89b4fa]"
-                : line.startsWith("✓")
-                ? "text-[#a6e3a1]"
-                : "text-[#cba6f7]"
-            }
+            className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+            style={{ background: `${color}18` }}
           >
-            {line}
+            <svg
+              className="w-2.5 h-2.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              style={{ color }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+            </svg>
           </div>
-        ))}
-        <div className="flex items-center gap-1 pt-0.5">
-          <span className="text-[#89b4fa]">$</span>
-          <span
-            className="inline-block w-1.25 h-2.5 bg-[#89b4fa]"
-            style={{ animation: "pulse 1.2s ease-in-out infinite" }}
-          />
+          <span className="text-[11px] text-gray-600 leading-relaxed">{benefit}</span>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
@@ -272,7 +238,7 @@ function MacBookView() {
                   <div className="flex-1 overflow-y-auto bg-white min-w-0">
                     <div
                       key={active}
-                      className="p-5 flex flex-col gap-3"
+                      className="p-5 flex flex-col gap-4"
                       style={{ animation: "macContentIn 0.3s ease forwards" }}
                     >
                       <div className="flex items-center gap-3">
@@ -288,21 +254,6 @@ function MacBookView() {
                         </div>
                         <div>
                           <h3 className="text-sm font-semibold text-gray-900 leading-tight">{s.title}</h3>
-                          <div className="flex flex-wrap gap-1 mt-1">
-                            {s.tags.map((t) => (
-                              <span
-                                key={t}
-                                className="text-[10px] px-1.5 py-px rounded-full font-medium"
-                                style={{
-                                  background: `${s.color}10`,
-                                  color: s.color,
-                                  border: `1px solid ${s.color}20`,
-                                }}
-                              >
-                                {t}
-                              </span>
-                            ))}
-                          </div>
                         </div>
                       </div>
 
@@ -313,7 +264,15 @@ function MacBookView() {
                         {s.description}
                       </p>
 
-                      <TerminalBlock lines={s.terminal} />
+                      <div
+                        className="rounded-xl p-3.5"
+                        style={{ background: `${s.color}06`, border: `1px solid ${s.color}14` }}
+                      >
+                        <p className="text-[9px] uppercase font-semibold tracking-widest mb-2.5" style={{ color: s.color }}>
+                          Por qué elegirnos
+                        </p>
+                        <BenefitsList benefits={s.benefits} color={s.color} />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -501,30 +460,33 @@ function IPhoneView() {
                   <p className="text-[13px] text-gray-500 leading-relaxed">{s.description}</p>
                 </div>
 
-                {/* Tags */}
+                {/* Benefits */}
                 <div className="bg-white rounded-2xl p-4 shadow-sm">
                   <p className="text-[11px] uppercase text-gray-400 font-semibold mb-2.5 tracking-wider">
-                    Tecnologías
+                    Por qué elegirnos
                   </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {s.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="text-[12px] px-3 py-1 rounded-full font-medium"
-                        style={{
-                          background: `${s.color}10`,
-                          color: s.color,
-                          border: `1px solid ${s.color}22`,
-                        }}
-                      >
-                        {t}
-                      </span>
+                  <div className="space-y-2.5">
+                    {s.benefits.map((benefit, i) => (
+                      <div key={i} className="flex items-start gap-2.5">
+                        <div
+                          className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                          style={{ background: `${s.color}15` }}
+                        >
+                          <svg
+                            className="w-3 h-3"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            style={{ color: s.color }}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                          </svg>
+                        </div>
+                        <span className="text-[13px] text-gray-600 leading-relaxed">{benefit}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
-
-                {/* Terminal */}
-                <TerminalBlock lines={s.terminal} />
 
                 {/* Pagination dots */}
                 <div className="flex justify-center gap-1.5 pt-1 pb-2">
@@ -583,8 +545,8 @@ export function ServicesSection() {
             <span className="gradient-text">en un solo equipo</span>
           </h2>
           <p className="text-ink-3 text-lg max-w-2xl mx-auto leading-relaxed">
-            Desde la idea hasta el lanzamiento. Cubrimos todo el ciclo de desarrollo
-            con tecnologías de vanguardia y metodologías ágiles.
+            Contamos con profesionales especializados en cada área para acompañarte
+            desde la estrategia hasta la entrega, con resultados que impulsan tu negocio.
           </p>
         </div>
 
