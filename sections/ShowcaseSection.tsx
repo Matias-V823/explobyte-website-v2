@@ -117,23 +117,9 @@ export function ShowcaseSection() {
               ))}
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border">
-              {[
-                { label: "Propiedades", val: "500+", color: "#4b8afe" },
-                { label: "Usuarios activos", val: "80+",  color: "#3e71d0" },
-                { label: "Uptime",          val: "99.9%", color: "#315aa5" },
-              ].map((s) => (
-                <div key={s.label} className="text-center">
-                  <div className="text-2xl font-bold" style={{ color: s.color }}>{s.val}</div>
-                  <div className="text-xs text-ink-4 mt-1">{s.label}</div>
-                </div>
-              ))}
-            </div>
-
             {/* Tech stack */}
             <div className="flex flex-wrap gap-2">
-              {["React","TypeScript","FastAPI","PostgreSQL","Docker","AWS"].map((t) => (
+              {["React","TypeScript","NestJS","PostgreSQL","Docker","AWS"].map((t) => (
                 <span key={t} className="text-xs px-3 py-1.5 rounded-full bg-[#f6f9ff] text-ink-3 border border-border font-medium">
                   {t}
                 </span>
