@@ -43,14 +43,7 @@ export function Navbar() {
       ].join(" ")}
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center shadow-sm">
-            <span className="text-white font-bold text-sm">E</span>
-          </div>
-          <span className="text-[#0f172a] font-semibold text-lg tracking-tight">
-            Explobyte
-          </span>
-        </a>
+        <img src="logo_explobyte_negro.png" alt="logo-explobyte" className="w-25 h-25"/>
 
         <div className="hidden md:flex items-center gap-8">
           {links.map((l) => (
