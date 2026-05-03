@@ -271,7 +271,7 @@ function CPUServicesMockup() {
 function ServiceLabel({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-2.5 bg-white/90 backdrop-blur-sm rounded-full pl-4 pr-1 py-1.5 shadow-lg border border-[#d2e2ff]">
-      <span className="text-[13px] font-semibold text-blue-900 whitespace-nowrap">{label}</span>
+      <span className="text-[13px] text-blue-900 whitespace-nowrap">{label}</span>
       <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0"
            style={{ background: "linear-gradient(135deg, #4b8afe, #315aa5)" }}>
         <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
