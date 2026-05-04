@@ -10,7 +10,6 @@ export function HeroSection() {
   const headRef    = useRef<HTMLHeadingElement>(null);
   const subRef     = useRef<HTMLParagraphElement>(null);
   const ctaRef     = useRef<HTMLDivElement>(null);
-  const statsRef   = useRef<HTMLDivElement>(null);
   const mockupRef  = useRef<HTMLDivElement>(null);
   const orbRef1    = useRef<HTMLDivElement>(null);
   const orbRef2    = useRef<HTMLDivElement>(null);
@@ -25,10 +24,9 @@ export function HeroSection() {
       .fromTo(headRef.current,   { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.85 }, 0.42)
       .fromTo(subRef.current,    { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: 0.75 }, 0.65)
       .fromTo(ctaRef.current,    { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.65 }, 0.82)
-      .fromTo(statsRef.current,  { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6  }, 0.96)
       .fromTo(mockupRef.current, { y: 56, opacity: 0, scale: 0.96 }, { y: 0, opacity: 1, scale: 1, duration: 1.1 }, 0.5);
 
-    gsap.to(mockupRef.current, { y: -10, duration: 5, ease: "sine.inOut", yoyo: true, repeat: -1 });
+    gsap.to(mockupRef.current, { y: -10, duration: 5, ease: "sine.inOut", yoyo: true});
     gsap.to(orbRef1.current,   { scale: 1.08, duration: 7, ease: "sine.inOut", yoyo: true, repeat: -1 });
     gsap.to(orbRef2.current,   { scale: 0.92, duration: 8, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 1.5 });
   }, []);
@@ -89,7 +87,7 @@ export function HeroSection() {
         </div>
 
         {/* Right column — mockup */}
-        <div className="hidden lg:block" aria-hidden="true">
+        <div ref={mockupRef} className="hidden lg:block" aria-hidden="true">
           <CPUServicesMockup />
         </div>
       </div>
