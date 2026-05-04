@@ -8,11 +8,27 @@ export function CTASection() {
   const [showInput, setShowInput] = useState(false);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!email) return;
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) throw new Error();
+      setSubmitted(true);
+    } catch {
+      setError("Ocurrió un error. Intenta nuevamente.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -66,26 +82,33 @@ export function CTASection() {
                 ¡Recibido! Nos pondremos en contacto pronto.
               </div>
             ) : (
-              <form
-                onSubmit={handleSubmit}
-                className="flex items-center gap-2 w-full max-w-md"
-              >
-                <input
-                  type="email"
-                  required
-                  autoFocus
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="tucorreo@ejemplo.com"
-                  className="flex-1 px-4 py-3 rounded-xl bg-white text-ink placeholder-gray-400 text-sm font-medium shadow-lg outline-none focus:ring-2 focus:ring-white/60"
-                />
-                <button
-                  type="submit"
-                  className="px-5 py-3 rounded-xl bg-white/20 border border-white/30 text-white font-semibold text-sm backdrop-blur-sm hover:bg-white/30 transition-colors cursor-pointer whitespace-nowrap"
+              <div className="flex flex-col items-center gap-2 w-full max-w-md">
+                <form
+                  onSubmit={handleSubmit}
+                  className="flex items-center gap-2 w-full"
                 >
-                  Enviar
-                </button>
-              </form>
+                  <input
+                    type="email"
+                    required
+                    autoFocus
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="tucorreo@ejemplo.com"
+                    disabled={loading}
+                    className="flex-1 px-4 py-3 rounded-xl bg-white text-ink placeholder-gray-400 text-sm font-medium shadow-lg outline-none focus:ring-2 focus:ring-white/60 disabled:opacity-60"
+                  />
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="px-5 py-3 rounded-xl bg-white/20 border border-white/30 text-white font-semibold text-sm backdrop-blur-sm hover:bg-white/30 transition-colors cursor-pointer whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {loading ? "Enviando..." : "Enviar"}
+                  </button>
+                </form>
+                {error && (
+                  <p className="text-white/80 text-sm">{error}</p>
+                )}
+              </div>
             )}
           </div>
 
