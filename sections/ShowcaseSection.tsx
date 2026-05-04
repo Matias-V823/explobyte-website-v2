@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
@@ -158,64 +158,151 @@ const views = [
 
 function ExploBrowserMockup() {
   const [active, setActive] = useState(0);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [rotX, setRotX] = useState(6);
+  const [rotY, setRotY] = useState(-15);
+  const [gloss, setGloss] = useState({ x: 38, y: 28 });
+  const [hovered, setHovered] = useState(false);
+
+  function onMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    setRotX((0.5 - y) * 18);
+    setRotY((x - 0.5) * 22);
+    setGloss({ x: x * 100, y: y * 100 });
+  }
+
+  function onMouseLeave() {
+    setRotX(6);
+    setRotY(-15);
+    setGloss({ x: 38, y: 28 });
+    setHovered(false);
+  }
+
+  const transition = hovered
+    ? "transform 0.08s ease-out"
+    : "transform 0.75s cubic-bezier(0.23,1,0.32,1)";
+
+  const shadowOffsetX = (rotY / 22) * 20;
+  const shadowOffsetY = (-rotX / 18) * 16;
 
   return (
-    <div className="select-none space-y-3" aria-label="Vista previa del sistema Explo">
-      {/* Main frame */}
+    <div
+      className="select-none space-y-4"
+      aria-label="Vista previa del sistema Explo"
+      style={{ perspective: "1100px" }}
+    >
+      {/* 3D card wrapper */}
       <div
-        className="rounded-2xl overflow-hidden"
+        ref={cardRef}
+        onMouseMove={onMouseMove}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={onMouseLeave}
         style={{
-          background: "#080d18",
-          boxShadow: "0 28px 72px -12px rgba(4,8,20,0.65), 0 0 0 1px #141c2e",
+          transform: `rotateX(${rotX}deg) rotateY(${rotY}deg)`,
+          transition,
+          transformStyle: "preserve-3d",
+          willChange: "transform",
+          position: "relative",
         }}
       >
-        {/* Titlebar */}
+        {/* Floating glow shadow — reacts to tilt */}
         <div
-          className="flex items-center px-4 gap-3"
-          style={{ height: 34, borderBottom: "1px solid #101827" }}
-        >
-          <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#1e2740" }} />
-            <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#1e2740" }} />
-            <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#1e2740" }} />
-          </div>
-          <div className="flex-1 flex justify-center">
-            <span
-              className="text-[11px] uppercase tracking-widest"
-              style={{ color: "#2d3d5c", letterSpacing: "0.15em" }}
-            >
-              {views[active].label}
-            </span>
-          </div>
-          <div className="w-14" />
-        </div>
+          style={{
+            position: "absolute",
+            inset: "8%",
+            bottom: "-6%",
+            borderRadius: 24,
+            background: "rgba(10,20,50,0.55)",
+            filter: "blur(32px)",
+            transform: `translateZ(-60px) translateX(${shadowOffsetX}px) translateY(${shadowOffsetY}px)`,
+            transition,
+            pointerEvents: "none",
+          }}
+        />
 
-        {/* Main image — cross-fade between views */}
-        <div className="relative" style={{ height: 360 }}>
-          {views.map((view, i) => (
-            <div
-              key={view.src}
-              className="absolute inset-0 overflow-hidden"
-              style={{
-                opacity: i === active ? 1 : 0,
-                transition: "opacity 0.35s ease",
-                pointerEvents: i === active ? "auto" : "none",
-              }}
-            >
-              <Image
-                src={view.src}
-                alt={view.alt}
-                width={view.width}
-                height={view.height}
-                className="w-full h-full object-cover object-top"
-                priority={i === 0}
-              />
+        {/* Edge depth layer — visible when tilted */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: 18,
+            background: "linear-gradient(135deg, #0c1220 0%, #050a14 100%)",
+            transform: "translateZ(-10px)",
+            border: "1px solid #0e1828",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Main browser frame */}
+        <div
+          className="relative rounded-2xl overflow-hidden"
+          style={{
+            background: "#080d18",
+            boxShadow: "0 0 0 1px #141c2e",
+            transform: "translateZ(0px)",
+          }}
+        >
+          {/* Gloss overlay */}
+          <div
+            className="absolute inset-0 pointer-events-none z-10 rounded-2xl"
+            style={{
+              background: `radial-gradient(ellipse at ${gloss.x}% ${gloss.y}%, rgba(255,255,255,0.065) 0%, transparent 62%)`,
+              transition: hovered ? "none" : "background 0.5s ease",
+            }}
+          />
+
+          {/* Titlebar */}
+          <div
+            className="flex items-center px-4 gap-3"
+            style={{ height: 34, borderBottom: "1px solid #101827" }}
+          >
+            <div className="flex gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#1e2740" }} />
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#1e2740" }} />
+              <div className="w-2.5 h-2.5 rounded-full" style={{ background: "#1e2740" }} />
             </div>
-          ))}
+            <div className="flex-1 flex justify-center">
+              <span
+                className="text-[11px] uppercase tracking-widest"
+                style={{ color: "#2d3d5c", letterSpacing: "0.15em" }}
+              >
+                {views[active].label}
+              </span>
+            </div>
+            <div className="w-14" />
+          </div>
+
+          {/* Main image — cross-fade between views */}
+          <div className="relative" style={{ aspectRatio: "16/9" }}>
+            {views.map((view, i) => (
+              <div
+                key={view.src}
+                className="absolute inset-0 overflow-hidden"
+                style={{
+                  opacity: i === active ? 1 : 0,
+                  transition: "opacity 0.35s ease",
+                  pointerEvents: i === active ? "auto" : "none",
+                }}
+              >
+                <Image
+                  src={view.src}
+                  alt={view.alt}
+                  width={view.width}
+                  height={view.height}
+                  className="w-full h-full object-cover object-top"
+                  priority={i === 0}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Thumbnails */}
+      {/* Thumbnails — flat, not tilted */}
       <div className="grid grid-cols-3 gap-2.5">
         {views.map((view, i) => (
           <button
@@ -225,7 +312,7 @@ function ExploBrowserMockup() {
             aria-label={`Mostrar ${view.label}`}
             className="relative overflow-hidden rounded-xl focus:outline-none"
             style={{
-              height: 80,
+              height: 100,
               border: `2px solid ${i === active ? "#4b8afe" : "transparent"}`,
               boxShadow: i === active
                 ? "0 0 0 1px rgba(75,138,254,0.2), 0 8px 20px -6px rgba(0,0,0,0.18)"
@@ -245,7 +332,6 @@ function ExploBrowserMockup() {
                 transition: "opacity 0.2s ease",
               }}
             />
-            {/* Label */}
             <div
               className="absolute bottom-0 inset-x-0 px-2 pb-1.5 pt-4"
               style={{
@@ -256,7 +342,6 @@ function ExploBrowserMockup() {
                 {view.label}
               </span>
             </div>
-            {/* Active dot */}
             {i === active && (
               <div
                 className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full"
