@@ -5,6 +5,7 @@ import { ServicesSection } from "@/sections/ServicesSection";
 import { ShowcaseSection } from "@/sections/ShowcaseSection";
 import { TechStackSection } from "@/sections/TechStackSection";
 import { CTASection } from "@/sections/CTASection";
+import { UsSection } from "@/sections/UsSection";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         <ServicesSection />
         <ShowcaseSection />
         <TechStackSection />
+        <UsSection />
         <CTASection />
       </main>
       <Footer />
